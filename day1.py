@@ -13,9 +13,7 @@ def part_1(data):
 def part_2(data):
     acc = 0
     for val in data:
-        while True:
-            if (val := val//3-2) < 0:
-                break
+        while (val := val//3-2) > 0:
             acc += val
     return acc
 
