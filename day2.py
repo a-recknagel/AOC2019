@@ -1,14 +1,9 @@
-from typing import Callable
-
-
-def get_input(loc, func: Callable = str, strip=True):
-    with open(loc) as data:
-        return [func(line.strip() if strip else line) for line in data]
+from util import get_input
 
 
 def intcode(data):
     for idx in range(0, len(data), 4):
-        opcode, source_1, source_2, target = data[idx:idx+4]
+        opcode, source_1, source_2, target = data[idx : idx + 4]
         if opcode == 99:
             break
         elif opcode == 1:
@@ -16,7 +11,7 @@ def intcode(data):
         elif opcode == 2:
             data[target] = data[source_1] * data[source_2]
         else:
-            raise RuntimeError(f'Bad data, invalid {opcode=}.')
+            raise RuntimeError(f"Bad data, invalid {opcode=}.")
 
 
 def part_1(data):
@@ -35,11 +30,11 @@ def part_2(data):
             if local_data[0] == 19690720:
                 return 100 * noun + verb
     else:
-        raise RuntimeError('Found no valid noun/verb combination.')
+        raise RuntimeError("Found no valid noun/verb combination.")
 
 
 if __name__ == "__main__":
-    data_ = [int(x) for x in get_input("data/day2")[0].split(',')]
+    data_ = [int(x) for x in get_input("data/day2")[0].split(",")]
 
     res_1 = part_1(data_)
     print(f"{res_1=}")
