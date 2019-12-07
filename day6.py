@@ -18,7 +18,7 @@ class Node:
             yield self
 
     @classmethod
-    def parse(cls, orbits: ty.Iterable[ty.Tuple[str, str]]):
+    def populate(cls, orbits: ty.Iterable[ty.Tuple[str, str]]):
         cls.nodes = {}
         for parent, child in orbits:
             if parent not in cls.nodes:
@@ -31,13 +31,13 @@ class Node:
 
 def part_1(data):
     orbits = [tuple(line.split(")")) for line in data]
-    Node.parse(orbits)
+    Node.populate(orbits)
     return sum([len([*n.ancestors()]) for n in Node.nodes.values()])
 
 
 def part_2(data):
     orbits = [tuple(line.split(")")) for line in data]
-    Node.parse(orbits)
+    Node.populate(orbits)
     for count_you, n_you in enumerate(Node.nodes["YOU"].ancestors()):
         for count_san, n_san in enumerate(Node.nodes["SAN"].ancestors()):
             if n_you == n_san:

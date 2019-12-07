@@ -1,3 +1,5 @@
+import typing as ty
+
 from util import get_input
 
 
@@ -6,11 +8,11 @@ class Finished(Exception):
 
 
 class IntCode:
-    def __init__(self, program, input):
-        self.program = program
-        self.input = input
+    def __init__(self, program: ty.List[int], input: ty.Iterable[int]):
+        self.program = program.copy()
+        self.input = iter(input)
         self.idx = 0
-        self.output = []
+        self.output: ty.List[int] = []
         self.op_code_map = {
             1: self.add,
             2: self.mul,
@@ -42,7 +44,7 @@ class IntCode:
         self.program[self.fetch(next(modes))] = noun * verb
 
     def mov(self, modes):
-        self.program[self.fetch(next(modes))] = self.input
+        self.program[self.fetch(next(modes))] = next(self.input)
 
     def out(self, modes):
         self.output.append(self.program[self.fetch(next(modes))])
@@ -93,13 +95,13 @@ class IntCode:
 
 
 def part_1():
-    test_1_1 = IntCode([1002, 4, 3, 4, 33], 1).run()
+    test_1_1 = IntCode([1002, 4, 3, 4, 33], [1]).run()
     print(f"{test_1_1=}")
-    test_1_2 = IntCode([3, 0, 4, 0, 99], 1).run()
+    test_1_2 = IntCode([3, 0, 4, 0, 99], [1]).run()
     print(f"{test_1_2=}")
 
     data = list(map(int, get_input("data/day5")[0].split(',')))
-    res_1 = IntCode(data, 1).run()
+    res_1 = IntCode(data, [1]).run()
     print(f"{res_1=}")
 
 
